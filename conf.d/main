@@ -11,3 +11,15 @@ ADMIN_MAIL=admin@example.com
 SRC=/usr/local/src
 WEBROOT=/var/www/e107
 
+# unpack and set permissions
+mkdir -p $WEBROOT
+tar -zxf $SRC/e107_*_full.tar.gz -C $WEBROOT
+rm $SRC/e107_*_full.tar.gz
+chown -R root:root $WEBROOT
+chown -R www-data:www-data $WEBROOT/e107_files
+chown -R www-data:www-data $WEBROOT/e107_themes
+chown -R www-data:www-data $WEBROOT/e107_images
+chown -R www-data:www-data $WEBROOT/e107_plugins
+chown www-data:www-data $WEBROOT/e107_config.php
+
+
