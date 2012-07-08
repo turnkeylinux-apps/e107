@@ -61,6 +61,9 @@ PREV=$(do_curl "previous_steps=$PREV&stage=7")
 rm -f $WEBROOT/install.php
 rm -f /tmp/cookie
 
+# secure sensitive files
+chmod 640 $WEBROOT/e107_config.php
+
 # stop services
 /etc/init.d/mysql stop
 /etc/init.d/apache2 stop
