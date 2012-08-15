@@ -4,6 +4,9 @@ turnkey-e107-12.0 (1) turnkey; urgency=low
 
   * Set e107 admin password and email on firstboot (convenience, security).
 
+  * Gotcha: When attempting to log in when browsing via IP address, you might
+    get an 'Access Denied' error. Use an FQDN instead.
+
   * Regenerates all secrets during installation / firstboot (security).
 
   * MySQL related:
