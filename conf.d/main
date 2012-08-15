@@ -66,7 +66,7 @@ chmod 640 $WEBROOT/e107_config.php
 
 # enable defaults
 mv $WEBROOT/e107.htaccess $WEBROOT/.htaccess
-mv $WEBROOT/e107.robots.txt $WEBROO/robots.txt
+mv $WEBROOT/e107.robots.txt $WEBROOT/robots.txt
 
 # stop services
 /etc/init.d/mysql stop
