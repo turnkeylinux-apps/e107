@@ -9,6 +9,7 @@ Option:
 
 import sys
 import getopt
+import inithooks_cache
 import hashlib
 from datetime import datetime
 from time import mktime
@@ -54,6 +55,8 @@ def main():
             "e107 Email",
             "Enter email address for the e107 'admin' account.",
             "admin@example.com")
+
+    inithooks_cache.write('APP_EMAIL', email)
 
     hash = hashlib.md5(password).hexdigest()
     timestamp = int(mktime(datetime.now().timetuple()))
