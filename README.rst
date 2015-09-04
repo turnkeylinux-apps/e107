@@ -26,7 +26,7 @@ and on top of that:
 Credentials *(passwords set at first boot)*
 -------------------------------------------
 
--  Webmin, SSH, MySQL, phpMyAdmin: username **root**
+-  Webmin, SSH, MySQL, Adminer: username **root**
 -  e107: username **admin**
 
 .. _e107: http://e107.org/
