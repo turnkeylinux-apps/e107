@@ -16,7 +16,8 @@ mkdir -p $WEBROOT
 tar -zxf $SRC/e107_*_full.tar.gz -C $WEBROOT
 rm $SRC/e107_*_full.tar.gz
 chown -R root:root $WEBROOT
-chown -R www-data:www-data $WEBROOT/e107_files
+chown -R www-data:www-data $WEBROOT/e107_media
+chown -R www-data:www-data $WEBROOT/e107_system
 chown -R www-data:www-data $WEBROOT/e107_themes
 chown -R www-data:www-data $WEBROOT/e107_images
 chown -R www-data:www-data $WEBROOT/e107_plugins
@@ -28,8 +29,8 @@ a2ensite e107
 a2enmod rewrite
 
 # start services
-/etc/init.d/mysql start
-/etc/init.d/apache2 start
+service mysql start
+service apache2 start
 
 # setup the database
 MYSQL_BATCH="mysql --user=root --password=$MYSQL_PASS --batch"
@@ -38,25 +39,30 @@ MYSQL_ADMIN="mysqladmin --user=root --password=$MYSQL_PASS"
 $MYSQL_ADMIN create $DB_NAME
 $MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by '$DB_PASS'; flush privileges;"
 
+
 # curl based install
+
 EMAIL=$(echo $ADMIN_MAIL | sed s/@/%40/)
 
 do_curl() {
     URL="http://127.0.0.1/install.php"
     CURL="curl -c /tmp/cookie -b /tmp/cookie"
-    PREV_STEP=$($CURL $URL --data "$1" | \
-                grep previous_steps | \
-                sed -e "s|.*value=\"\(.*\)\".*|\1|")
-    echo $PREV_STEP
+    #OUT=$($CURL $URL --data "$1")
+
+    $CURL $URL --data "$1" | \
+         grep previous_steps | \
+         sed -e "s|.*value='\(.*\)'.*|\1|"
 }
 
 PREV=$(do_curl)
-PREV=$(do_curl "previous_steps=$PREV&stage=2&language=English")
-PREV=$(do_curl "previous_steps=$PREV&stage=3&server=localhost&name=$DB_USER&password=$DB_PASS&db=$DB_NAME&db_utf8=1&prefix=e107_")
-PREV=$(do_curl "previous_steps=$PREV&stage=4")
-PREV=$(do_curl "previous_steps=$PREV&stage=5&continue_install=Continue+Installation")
-PREV=$(do_curl "previous_steps=$PREV&stage=6&u_name=$ADMIN_NAME&d_name=Administrator&pass1=$ADMIN_PASS&pass2=$ADMIN_PASS&email=$EMAIL")
-PREV=$(do_curl "previous_steps=$PREV&stage=7")
+PREV=$(do_curl "previous_steps=$PREV&stage=2&language=English&start=Continue+%C2%BB")
+PREV=$(do_curl "previous_steps=$PREV&stage=3&server=localhost&name=$DB_USER&password=$DB_PASS&db=$DB_NAME&db_utf8=1&prefix=e107_&createdb=1&submit=Continue+%C2%BB")
+PREV=$(do_curl "previous_steps=$PREV&stage=3&overwritedb=Overwrite+%C2%BB")
+PREV=$(do_curl "previous_steps=$PREV&stage=4&submit=Continue+%C2%BB")
+PREV=$(do_curl "previous_steps=$PREV&stage=5&continue_install=Continue+%CE%BB")
+PREV=$(do_curl "previous_steps=$PREV&stage=6&u_name=$ADMIN_NAME&d_name=Administrator&pass1=$ADMIN_PASS&pass2=$ADMIN_PASS&email=$EMAIL&submit=Continue+%C2%BB")
+PREV=$(do_curl "previous_steps=$PREV&stage=7&sitename=example&sitetheme=landingzero&install_plugins=1&generate_content=1&submit=Continue+%C2%BB")
+PREV=$(do_curl "previous_steps=$PREV&stage=8&submit=Continue+%C2%BB")
 
 rm -f $WEBROOT/install.php
 rm -f /tmp/cookie
@@ -69,6 +75,6 @@ mv $WEBROOT/e107.htaccess $WEBROOT/.htaccess
 mv $WEBROOT/e107.robots.txt $WEBROOT/robots.txt
 
 # stop services
-/etc/init.d/mysql stop
-/etc/init.d/apache2 stop
+service mysql stop
+service apache2 stop
 

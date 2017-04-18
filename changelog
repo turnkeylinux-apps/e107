@@ -1,5 +1,16 @@
 turnkey-e107-14.1 (1) turnkey; urgency=low
 
+  * Updated e107 to 2.1.4
+
+  * Updated Adminer to 4.2.5
+
+  * Note: Please refer to turnkey-core's changelog for changes common to all
+    appliances. Here we only describe changes specific to this appliance.
+
+ -- Stefan Davis <stefan@turnkeylinux.org>  Tue, 11 Apr 2017 09:26:27 +1000
+
+turnkey-e107-14.1 (1) turnkey; urgency=low
+
   * Installed security updates.
 
   * Installed updated packages from TurnKey repo
