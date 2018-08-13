@@ -14,6 +14,11 @@ and on top of that:
    
    - Installed from upstream source code to /var/www/e107
 
+     **Security note**: Updates to e107 may require supervision so
+     they **ARE NOT** configured to install automatically. e107 provide
+     upgrade scripts as well as full installers. Please see `e107
+     documentation`_
+
 - SSL support out of the box.
 - `Adminer`_ administration frontend for MySQL (listening on port
   12322 - uses SSL).
@@ -30,6 +35,7 @@ Credentials *(passwords set at first boot)*
 -  Adminer: username **adminer**
 -  e107: username **admin**
 
-.. _e107: http://e107.org/
+.. _e107: https://e107.org/
 .. _TurnKey Core: https://www.turnkeylinux.org/core
-.. _Adminer: http://www.adminer.org/
+.. _e107 documentation: https://e107.org/get-started
+.. _Adminer: https://www.adminer.org/
