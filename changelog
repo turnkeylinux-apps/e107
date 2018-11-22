@@ -1,6 +1,9 @@
 turnkey-e107-15.1 (1) turnkey; urgency=low
 
-  * Updated e107 to 2.1.9
+  * Updated e107 to 2.1.9.
+
+  * Rebuild to resolve inadvertent removal of mariadb during sec-updates
+    - part of #1246.
 
  -- Stefan Davis <stefan@turnkeylinux.org>  Wed, 21 Nov 2018 02:09:05 +1000
 
