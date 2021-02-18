@@ -23,7 +23,7 @@ chown -R www-data:www-data $WEBROOT/e107_images
 chown -R www-data:www-data $WEBROOT/e107_plugins
 chown www-data:www-data $WEBROOT/e107_config.php
 
-# disable allow_url_fopen wiht php-curl installed (as recommended in
+# disable allow_url_fopen with php-curl installed (as recommended in
 # admin/phpinfo.php)
 sed -i "\|^allow_url_fopen|s|=.*|= Off|" /etc/php/7.3/apache2/php.ini
 
