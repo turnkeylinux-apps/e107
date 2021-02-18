@@ -61,7 +61,7 @@ PREV=$(do_curl "previous_steps=$PREV&stage=3&overwritedb=Overwrite+%C2%BB")
 PREV=$(do_curl "previous_steps=$PREV&stage=4&submit=Continue+%C2%BB")
 PREV=$(do_curl "previous_steps=$PREV&stage=5&continue_install=Continue+%CE%BB")
 PREV=$(do_curl "previous_steps=$PREV&stage=6&u_name=$ADMIN_NAME&d_name=Administrator&pass1=$ADMIN_PASS&pass2=$ADMIN_PASS&email=$EMAIL&submit=Continue+%C2%BB")
-PREV=$(do_curl "previous_steps=$PREV&stage=7&sitename=example&sitetheme=landingzero&install_plugins=1&generate_content=1&submit=Continue+%C2%BB")
+PREV=$(do_curl "previous_steps=$PREV&stage=7&sitename=example&sitetheme=bootstrap3&install_plugins=1&generate_content=1&submit=Continue+%C2%BB")
 PREV=$(do_curl "previous_steps=$PREV&stage=8&submit=Continue+%C2%BB")
 
 rm -f $WEBROOT/install.php
