@@ -25,7 +25,7 @@ chown www-data:www-data $WEBROOT/e107_config.php
 
 # disable allow_url_fopen with php-curl installed (as recommended in
 # admin/phpinfo.php)
-sed -i "\|^allow_url_fopen|s|=.*|= Off|" /etc/php/7.3/apache2/php.ini
+sed -i "\|^allow_url_fopen|s|=.*|= Off|" /etc/php/7.4/apache2/php.ini
 
 # configure apache
 a2dissite 000-default

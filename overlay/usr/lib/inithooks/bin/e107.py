@@ -9,13 +9,13 @@ Option:
 
 import sys
 import getopt
-import inithooks_cache
 import hashlib
 from datetime import datetime
 from time import mktime
-
-from dialog_wrapper import Dialog
 from mysqlconf import MySQL
+
+from libinithooks import inithooks_cache
+from libinithooks.dialog_wrapper import Dialog
 
 def usage(s=None):
     if s:
