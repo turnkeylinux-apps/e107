@@ -25,7 +25,7 @@ chown www-data:www-data $WEBROOT/e107_config.php
 
 # disable allow_url_fopen with php-curl installed (as recommended in
 # admin/phpinfo.php)
-sed -i "\|^allow_url_fopen|s|=.*|= Off|" /etc/php/8.2/apache2/php.ini
+sed -i "\|^allow_url_fopen|s|=.*|= Off|" /etc/php/?.?/apache2/php.ini
 
 # configure apache
 a2dissite 000-default
@@ -66,6 +66,9 @@ PREV=$(do_curl "previous_steps=$PREV&stage=8&submit=Continue+%C2%BB")
 
 rm -f $WEBROOT/install.php
 rm -f /tmp/cookie
+
+# enable cron.d
+chmod +x $WEBROOT/cron.php
 
 # secure sensitive files
 chmod 640 $WEBROOT/e107_config.php

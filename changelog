@@ -1,6 +1,10 @@
 turnkey-e107-18.0 (1) turnkey; urgency=low
 
-  * Install latest upstream version of Moodle: 2.3.2 (same as 17.1).
+  * Install latest upstream version of e107: 2.3.3.
+    [ Stefan Davis ]
+
+  * Fix cronjob
+    [ Stefan Davis ]
 
   * Re-build on TurnKey Linux 18.0 (Debian 12 'bookworm')
 
