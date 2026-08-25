@@ -1,4 +1,5 @@
-#!/bin/sh -ex
+#!/bin/bash
+set -Eeuxo pipefail
 
 DB_NAME=e107
 DB_USER=e107
@@ -12,46 +13,44 @@ SRC=/usr/local/src
 WEBROOT=/var/www/e107
 
 # unpack and set permissions
-mkdir -p $WEBROOT
-tar -zxf $SRC/e107_*_full.tar.gz -C $WEBROOT
-rm $SRC/e107_*_full.tar.gz
-chown -R root:root $WEBROOT
-chown -R www-data:www-data $WEBROOT/e107_media
-chown -R www-data:www-data $WEBROOT/e107_system
-chown -R www-data:www-data $WEBROOT/e107_themes
-chown -R www-data:www-data $WEBROOT/e107_images
-chown -R www-data:www-data $WEBROOT/e107_plugins
-chown www-data:www-data $WEBROOT/e107_config.php
+mkdir -p "$WEBROOT"
+tar -zxf "$SRC/e107_2.3.11_full.tar.gz" -C "$WEBROOT"
+rm "$SRC/e107_2.3.11_full.tar.gz"
+chown -R root:root "$WEBROOT"
+chown -R www-data:www-data "$WEBROOT/e107_media"
+chown -R www-data:www-data "$WEBROOT/e107_system"
+chown -R www-data:www-data "$WEBROOT/e107_themes"
+chown -R www-data:www-data "$WEBROOT/e107_images"
+chown -R www-data:www-data "$WEBROOT/e107_plugins"
+chown www-data:www-data "$WEBROOT/e107_config.php"
 
 # disable allow_url_fopen with php-curl installed (as recommended in
 # admin/phpinfo.php)
-sed -i "\|^allow_url_fopen|s|=.*|= Off|" /etc/php/?.?/apache2/php.ini
+sed -i "\|^allow_url_fopen|s|=.*|= Off|" /etc/php/8.4/apache2/php.ini
 
 # configure apache
 a2dissite 000-default
 a2ensite e107
 a2enmod rewrite
+a2enmod ssl
 
 # start services
-service mysql start
+service mariadb start
 service apache2 start
 
 # setup the database
-mysqladmin create $DB_NAME
-mysql --batch --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by '$DB_PASS'; flush privileges;"
+mariadb --batch --execute "CREATE DATABASE $DB_NAME; CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS'; GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'localhost';"
 
 # curl based install
 
-EMAIL=$(echo $ADMIN_MAIL | sed s/@/%40/)
+EMAIL=${ADMIN_MAIL/@/%40}
 
 do_curl() {
     URL="http://127.0.0.1/install.php"
-    CURL="curl -c /tmp/cookie -b /tmp/cookie"
-    #OUT=$($CURL $URL --data "$1")
-
-    $CURL $URL --data "$1" | \
-         grep previous_steps | \
-         sed -e "s|.*value='\(.*\)'.*|\1|"
+    curl --fail --silent --show-error \
+        --cookie /tmp/cookie --cookie-jar /tmp/cookie \
+        "$URL" --data "$1" | \
+        sed -n "s|.*name='previous_steps' value='\([^']*\)'.*|\1|p" | head -n1
 }
 
 PREV=$(do_curl)
@@ -64,19 +63,19 @@ PREV=$(do_curl "previous_steps=$PREV&stage=6&u_name=$ADMIN_NAME&d_name=Administr
 PREV=$(do_curl "previous_steps=$PREV&stage=7&sitename=example&sitetheme=bootstrap3&install_plugins=1&generate_content=1&submit=Continue+%C2%BB")
 PREV=$(do_curl "previous_steps=$PREV&stage=8&submit=Continue+%C2%BB")
 
-rm -f $WEBROOT/install.php
+rm -f "$WEBROOT/install.php"
 rm -f /tmp/cookie
 
 # enable cron.d
-chmod +x $WEBROOT/cron.php
+chmod +x "$WEBROOT/cron.php"
 
 # secure sensitive files
-chmod 640 $WEBROOT/e107_config.php
+chmod 640 "$WEBROOT/e107_config.php"
 
 # enable defaults
-mv $WEBROOT/e107.htaccess $WEBROOT/.htaccess
-mv $WEBROOT/e107.robots.txt $WEBROOT/robots.txt
+mv "$WEBROOT/e107.htaccess" "$WEBROOT/.htaccess"
+mv "$WEBROOT/e107.robots.txt" "$WEBROOT/robots.txt"
 
 # stop services
-service mysql stop
+service mariadb stop
 service apache2 stop

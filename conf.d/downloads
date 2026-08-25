@@ -1,12 +1,21 @@
-#!/bin/bash -ex
+#!/bin/bash
+set -Eeuxo pipefail
 
 dl() {
-    [ "$FAB_HTTP_PROXY" ] && PROXY="--proxy $FAB_HTTP_PROXY"
-    cd $2; curl -L -f -O $PROXY $1; cd -
+    local url=$1
+    local destination=$2
+    local -a proxy=()
+
+    if [[ -n ${FAB_HTTP_PROXY:-} ]]; then
+        proxy=(--proxy "$FAB_HTTP_PROXY")
+    fi
+    curl --fail --location "${proxy[@]}" "$url" --output "$destination"
 }
 
-VERSION="e107%20v2.3.3/e107_2.3.3_full.tar.gz"
-URL="http://sourceforge.net/projects/e107/files/e107/$VERSION"
+VERSION=2.3.11
+ARCHIVE="e107_${VERSION}_full.tar.gz"
+URL="https://github.com/e107inc/e107/releases/download/v${VERSION}/${ARCHIVE}"
+SHA256=4e60eec29a061ed295a88ce67fcff05b42cc0a3a55b5a8fa84b65476f3e944bc
 
-dl $URL /usr/local/src
-
+dl "$URL" "/usr/local/src/$ARCHIVE"
+printf '%s  %s\n' "$SHA256" "/usr/local/src/$ARCHIVE" | sha256sum --check -
