@@ -49,7 +49,7 @@ do_curl() {
     URL="http://127.0.0.1/install.php"
     curl --fail --silent --show-error \
         --cookie /tmp/cookie --cookie-jar /tmp/cookie \
-        "$URL" --data "$1" | \
+        "$URL" --data "${1:-}" | \
         sed -n "s|.*name='previous_steps' value='\([^']*\)'.*|\1|p" | head -n1
 }
 
