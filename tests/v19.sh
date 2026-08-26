@@ -7,9 +7,16 @@ app_password=${TKL_TEST_APP_PASS:?TKL_TEST_APP_PASS is required}
 cookie=/tmp/tkl-e107-cookie.$$
 page=/tmp/tkl-e107-page.$$
 
+report_error() {
+    printf 'test_failure line=%s status=%s command=%q\n' \
+        "$1" "$2" "$3" >&2
+    exit "$2"
+}
+
 cleanup() {
     rm -f -- "$cookie" "$page"
 }
+trap 'report_error "$LINENO" "$?" "$BASH_COMMAND"' ERR
 trap cleanup EXIT
 
 systemctl --quiet is-active apache2.service mariadb.service postfix.service
