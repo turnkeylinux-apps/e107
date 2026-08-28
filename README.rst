@@ -18,9 +18,9 @@ and on top of that:
      SHA-256 digest is verified during the build.
 
      **Security note**: e107 updates require administrator supervision and
-     are not installed automatically. Back up the appliance, then follow the
-     official `e107 upgrade documentation`_ using a current full or upgrade
-     release from the `e107 releases`_ page.
+     are not installed automatically. Back up the appliance, then use the
+     matching v2.x upgrade archive and instructions published in the current
+     `e107 release notes`_.
 
 - SSL support out of the box.
 - `Adminer`_ administration frontend for MySQL (listening on port
@@ -40,6 +40,5 @@ Credentials *(passwords set at first boot)*
 
 .. _e107: https://e107.org/
 .. _TurnKey Core: https://www.turnkeylinux.org/core
-.. _e107 upgrade documentation: https://e107.org/docs/upgrade
-.. _e107 releases: https://github.com/e107inc/e107/releases
+.. _e107 release notes: https://github.com/e107inc/e107/releases/latest
 .. _Adminer: https://www.adminer.org/
