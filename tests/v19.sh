@@ -98,8 +98,8 @@ test ! -e /var/www/e107/install.php
 test "$(stat -c '%a' /var/www/e107/e107_config.php)" = 640
 runuser -u www-data -- /usr/bin/php /var/www/e107/cron.php >/dev/null
 
-dpkg-query -W php8.4 php8.4-cli php8.4-curl php8.4-gd php8.4-mbstring \
-    php8.4-xml mariadb-server webmin-apache webmin-mysql >/dev/null
+dpkg-query -W php-cli php-curl php-gd php-mbstring php-xml mariadb-server \
+    webmin-apache webmin-mysql >/dev/null
 curl --insecure --fail --silent --show-error --head \
     https://127.0.0.1:12321/ >/dev/null
 ss -ltn | grep -Eq '127\.0\.0\.1:25[[:space:]]'
