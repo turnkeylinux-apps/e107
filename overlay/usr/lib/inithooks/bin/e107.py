@@ -9,9 +9,8 @@ Option:
 
 import sys
 import getopt
-import hashlib
-from datetime import datetime
-from time import mktime
+import subprocess
+import time
 from mysqlconf import MySQL
 
 from libinithooks import inithooks_cache
@@ -58,14 +57,22 @@ def main():
 
     inithooks_cache.write('APP_EMAIL', email)
 
-    hash = hashlib.md5(password.encode('utf8')).hexdigest()
-    timestamp = int(mktime(datetime.now().timetuple()))
+    password_hash = subprocess.run(
+        ["/usr/bin/php", "-r",
+         "echo password_hash(stream_get_contents(STDIN), PASSWORD_DEFAULT);"],
+        input=password,
+        text=True,
+        stdout=subprocess.PIPE,
+        check=True,
+    ).stdout
+    if not password_hash.startswith("$2y$"):
+        raise RuntimeError("e107 password hashing failed")
+    timestamp = int(time.time())
 
     m = MySQL()
-    m.execute('UPDATE e107.e107_user SET user_password=%s WHERE user_loginname=\"admin\";', (hash,))
+    m.execute('UPDATE e107.e107_user SET user_password=%s WHERE user_loginname=\"admin\";', (password_hash,))
     m.execute('UPDATE e107.e107_user SET user_email=%s WHERE user_loginname=\"admin\";', (email,))
     m.execute('UPDATE e107.e107_user SET user_pwchange=%s WHERE user_loginname=\"admin\";', (timestamp,))
 
 if __name__ == "__main__":
     main()
-

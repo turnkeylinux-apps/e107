@@ -14,10 +14,13 @@ and on top of that:
    
    - Installed from upstream source code to /var/www/e107
 
-     **Security note**: Updates to e107 may require supervision so
-     they **ARE NOT** configured to install automatically. e107 provide
-     upgrade scripts as well as full installers. Please see `e107
-     documentation`_
+     Version 2.3.11 is installed from the official release archive and its
+     SHA-256 digest is verified during the build.
+
+     **Security note**: e107 updates require administrator supervision and
+     are not installed automatically. Back up the appliance, then use the
+     matching v2.x upgrade archive and instructions published in the current
+     `e107 release notes`_.
 
 - SSL support out of the box.
 - `Adminer`_ administration frontend for MySQL (listening on port
@@ -37,5 +40,5 @@ Credentials *(passwords set at first boot)*
 
 .. _e107: https://e107.org/
 .. _TurnKey Core: https://www.turnkeylinux.org/core
-.. _e107 documentation: https://e107.org/get-started
+.. _e107 release notes: https://github.com/e107inc/e107/releases/latest
 .. _Adminer: https://www.adminer.org/

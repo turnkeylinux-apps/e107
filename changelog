@@ -1,3 +1,15 @@
+turnkey-e107-19.0 (1) turnkey; urgency=low
+
+  * Install e107 2.3.11 from its official release archive with SHA-256
+    verification.
+
+  * Store the firstboot administrator password using PHP's current password
+    hashing API.
+
+  * Update the appliance for Debian 13 (Trixie), PHP 8.4 and current MariaDB.
+
+ -- TurnKey Linux release engineering <release@turnkeylinux.org>  Tue, 25 Aug 2026 00:00:00 +0000
+
 turnkey-e107-18.0 (1) turnkey; urgency=low
 
   * Install latest upstream version of e107: 2.3.3.
@@ -283,4 +295,3 @@ turnkey-e107-12.0 (1) turnkey; urgency=low
     appliances. Here we only describe changes specific to this appliance.
 
  -- Alon Swartz <alon@turnkeylinux.org>  Wed, 01 Aug 2012 08:00:00 +0200
-
